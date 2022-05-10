@@ -9,15 +9,15 @@ export const Message = () => {
      
         const mouseMove = (e)=>{
           const coords = {x: e.x, y: e.y}
-          setCoords( coords );
+          setCoords( coords ); //renderiza los eventos en x y y 
 
       }
     
-      window.addEventListener('mousemove', mouseMove);
+      window.addEventListener('mousemove', mouseMove); //se ejecuta el eventlistener con las coordendas
 
 
       return () => {
-        window.removeEventListener('mousemove', mouseMove);
+        window.removeEventListener('mousemove', mouseMove); //remueve la referencia del mouseMove y se desmonta el componente
       }
     }, [])
     
