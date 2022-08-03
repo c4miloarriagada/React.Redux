@@ -1,15 +1,18 @@
-import React from 'react'
+import React from "react";
 
-export const TodoItem = ({ todo, onDeleteTodo }) => {
+export const TodoItem = ({ todo, onDeleteTodo, onToggleTodo }) => {
   return (
-    <li 
-    className='list-group-item'>
-    <p className='text-center'>  {todo.description} </p>
-    <button 
-      onClick={()=> onDeleteTodo( todo.id )}
-      className='btn btn-danger'>
+    <li className="list-group-item">
+      <span
+        onClick={() => onToggleTodo(todo.id)}
+        className={`align-self-center ${ (todo.done) ? 'text-decoration-line-through' : '' }`}
+      >
+        {" "}
+        {todo.description}{" "}
+      </span>
+      <button onClick={() => onDeleteTodo(todo.id)} className="btn btn-danger">
         Borrar
-    </button>
+      </button>
     </li>
-  )
-}
+  );
+};

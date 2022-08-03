@@ -12,12 +12,13 @@ export const TodoAdd = ({ onNewTodo }) => {
     e.preventDefault();
     if(description.length <= 1) return
     const newTodo ={
-        done: false,
-        id: new Date().getTime(),
-        description
+      id: new Date().getTime(),
+      description,
+      done: false,
     }
 
-    onNewTodo(newTodo)
+    onNewTodo(newTodo);
+    onResetForm();
 
    }
 
