@@ -14,8 +14,7 @@ export const SideBar = ({ drawerWidth = 240 }) => {
 
   const { displayName }  = useSelector((state)=> state.auth);
   const { notes }  = useSelector((state)=> state.journal);
-  const dispatch = useDispatch()
-
+  
 
   return (
     <Box
@@ -25,10 +24,10 @@ export const SideBar = ({ drawerWidth = 240 }) => {
       <Drawer
         variant="permanent"
         open
-        sx={{
-          display: { xs: "block" },
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
-        }}
+        sx={{ 
+          display: { xs: 'block' },
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
+      }}
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
