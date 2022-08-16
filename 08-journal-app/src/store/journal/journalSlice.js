@@ -66,3 +66,4 @@ export const {
   setPhotosToActiveNote,
   clearNotesLogout
 } = journalSlice.actions;
+//cambio que hice en main
