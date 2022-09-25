@@ -1,26 +1,74 @@
 const { response } = require("express");
-const { validationResult } = require("express-validator");
-const userCreate = (req, res = response) => {
-  const { name, email, password } = req.body;
+const bcrypt = require("bcryptjs");
+const User = require("../models/User");
 
-  res.status(201).json({
-    ok: true,
-    msg: "registro",
-    name,
-    email,
-    password,
-  });
+const userCreate = async (req, res = response) => {
+  const { email, password } = req.body;
+  try {
+    let user = await User.findOne({ email });
+
+    if (user) {
+      return res.status(400).json({
+        ok: false,
+        msg: "User already exist",
+      });
+    }
+    user = new User(req.body);
+
+    const salt = bcrypt.genSaltSync();
+
+    user.password = bcrypt.hashSync(password, salt);
+
+    await user.save();
+
+    res.status(201).json({
+      ok: true,
+      uid: user.id,
+      name: user.name,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Contact the admin",
+    });
+  }
 };
 
-const userLogin = (req, res = response) => {
+const userLogin = async (req, res = response) => {
   const { email, password } = req.body;
 
-  res.status(201).json({
-    ok: true,
-    msg: "login",
-    email,
-    password,
-  });
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        ok: false,
+        msg: "User or password doesnt match",
+      });
+    }
+
+    const validPassword = bcrypt.compareSync(password, user.password);
+
+    if (!validPassword) {
+      return res.status(400).json({
+        ok: false,
+        msg: "Password invalid",
+      });
+    }
+
+    res.json({
+      ok: true,
+      uid: user.id,
+      name: user.name,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Contact the admin",
+    });
+  }
 };
 
 const tokenValidation = (req, res = response) => {
